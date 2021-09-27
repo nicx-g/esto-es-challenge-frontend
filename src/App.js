@@ -1,24 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import { Navigator } from "react-onsenui";
+import ProjectList from "./Components/ProjectList";
 
 function App() {
+  const renderPage = (route, navigator) => (
+    <route.component key={route.key} navigator={navigator} />
+  );
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Navigator
+      renderPage={renderPage}
+      initialRoute={{ component: ProjectList, key: "projectList" }}
+    />
   );
 }
 

@@ -1,0 +1,23 @@
+.list__item__card {
+  display: flex;
+  flex-direction: column !important;
+  align-items: start !important;
+}
+
+.list__item__card__title {
+  font-size: 1rem;
+  margin: 3px 10px;
+}
+.list__item__card__subtitle {
+  font-size: 0.8rem;
+  margin: 3px 10px;
+  color: #00000073;
+}
+.list__item__card__user {
+  margin: 3px 10px;
+  display: flex;
+  align-items: center;
+}
+.list__item__card__user img {
+  margin-right: 5px;
+}
