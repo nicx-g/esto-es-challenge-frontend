@@ -53,9 +53,9 @@ const ProjectList = ({ navigator }) => {
               </div>
               <div className="right">
                 <Icon
-                  ref={(icon) => setTarget(icon)}
-                  onClick={() => {
+                  onClick={(event) => {
                     setIsOpen(true)
+                    setTarget(event.target)
                   }}
                   icon="ellipsis-v"
                 />
