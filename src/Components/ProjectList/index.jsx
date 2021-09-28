@@ -8,6 +8,7 @@ import useProjects from '../../hooks/useProjects'
 const ProjectList = ({ navigator }) => {
 
   const { projects, isLoading, deleteProject } = useProjects()
+  const [limitProjects, setLimitProjects] = useState(6)
   const [isOpen, setIsOpen] = useState({
     menu: false,
     alert: false
@@ -19,16 +20,23 @@ const ProjectList = ({ navigator }) => {
   }
 
   return (
-    <Page renderToolbar={() =>
-      <Navbar title="My projects" navigator={navigator} />
-    }>
+    <Page
+      renderToolbar={() =>
+        <Navbar title="My projects" navigator={navigator} />
+      }
+      contentStyle={{ padding: "20px", overflowY: "scroll" }}
+      onInfiniteScroll={(done) => {
+        setLimitProjects(limitProjects + 6)
+        done()
+      }}
+    >
       <div className="container">
         {isLoading ?
           <div className={styles.loading}>
             <ProgressCircular indeterminate />
           </div> :
           <List
-            dataSource={projects}
+            dataSource={projects.slice(0, limitProjects)}
             renderRow={(project) => (
               <ListItem modifier="longdivider">
                 <div className={`left ${styles.list__item__card}`}>
