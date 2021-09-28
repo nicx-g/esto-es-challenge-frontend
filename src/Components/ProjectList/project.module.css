@@ -21,3 +21,9 @@
 .list__item__card__user img {
   margin-right: 5px;
 }
+.loading {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

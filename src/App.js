@@ -1,5 +1,6 @@
 import { Navigator } from "react-onsenui";
 import ProjectList from "./Components/ProjectList";
+import ProjectProvider from "./context/project";
 
 function App() {
   const renderPage = (route, navigator) => (
@@ -7,10 +8,12 @@ function App() {
   );
 
   return (
-    <Navigator
-      renderPage={renderPage}
-      initialRoute={{ component: ProjectList, key: "projectList" }}
-    />
+    <ProjectProvider>
+      <Navigator
+        renderPage={renderPage}
+        initialRoute={{ component: ProjectList, key: "projectList" }}
+      />
+    </ProjectProvider>
   );
 }
 
