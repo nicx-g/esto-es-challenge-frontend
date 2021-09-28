@@ -52,8 +52,8 @@ const ProjectList = ({ navigator }) => {
               console.log(search)
               if (search) {
                 const projectsFiltered = projects.filter(item =>
-                  item.name.toLowerCase().includes(search) ||
-                  item.description.toLowerCase().includes(search)
+                  item.name.toLowerCase().includes(search.toLowerCase()) ||
+                  item.description.toLowerCase().includes(search.toLowerCase())
                 )
                 setFilteredProjects(projectsFiltered)
               } else {
