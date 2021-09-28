@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Page, List, ListItem, Icon, Popover, ProgressCircular, AlertDialog, AlertDialogButton } from 'react-onsenui'
+import Index from '../ProjectForm';
 import Navbar from '../Navbar';
 import styles from './project.module.css'
 import useProjects from '../../hooks/useProjects'
@@ -57,9 +58,12 @@ const ProjectList = ({ navigator }) => {
                   getTarget={() => target}
                 >
                   <List>
-                    <ListItem>
+                    <ListItem onClick={() => {
+                      setIsOpen({ ...isOpen, menu: false })
+                      navigator.pushPage({ component: Index, project, key: "projectFormEdit" })
+                    }}>
                       <Icon className="left" icon="edit" />
-                      <div className="left">Edit</div>
+                      <div className="left">Edit, {project.name}</div>
                     </ListItem>
                     <ListItem onClick={() => setIsOpen({ menu: false, alert: true })}>
                       <Icon className="left" icon="trash" />

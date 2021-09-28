@@ -5,7 +5,7 @@ import UsersProvider from "./context/users";
 
 function App() {
   const renderPage = (route, navigator) => (
-    <route.component key={route.key} navigator={navigator} />
+    <route.component key={route.key} navigator={navigator} {...route} />
   );
 
   return (
@@ -13,7 +13,10 @@ function App() {
       <ProjectProvider>
         <Navigator
           renderPage={renderPage}
-          initialRoute={{ component: ProjectList, key: "projectList" }}
+          initialRoute={{
+            component: ProjectList,
+            key: "projectList",
+          }}
         />
       </ProjectProvider>
     </UsersProvider>

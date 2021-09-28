@@ -6,9 +6,10 @@ import styles from './proyectForm.module.css'
 import useUsers from '../../hooks/useUsers'
 import useProjects from '../../hooks/useProjects'
 
-const Index = ({ navigator }) => {
+const Index = ({ navigator, project }) => {
+  console.log(project)
   const { users } = useUsers();
-  const { createProject } = useProjects();
+  const { createProject, updateProject } = useProjects();
   const [isOpen, setIsOpen] = useState(false)
 
   const validate = (values) => {
@@ -22,19 +23,25 @@ const Index = ({ navigator }) => {
 
   return (
     <Page renderToolbar={() =>
-      <Navbar title="Add Project" navigator={navigator} backButton={true} />
+      <Navbar title={`${project ? "Edit project" : "Add Project"}`} navigator={navigator} backButton={true} />
     }>
       <Formik
+        enableReinitialize
         validate={validate}
         initialValues={{
-          name: "",
-          description: '',
-          manager_id: "",
-          developer_id: "",
-          status: "enabled"
+          name: project?.name ?? "",
+          description: project?.description ?? '',
+          manager_id: project?.project_manager?.id ?? 0,
+          developer_id: project?.assigned_to?.id ?? 0,
+          status: project?.status ?? "enabled"
         }}
         onSubmit={(values, actions) => {
-          const resp = createProject(values)
+          let resp;
+          if (project) {
+            resp = updateProject(project?.id, values)
+          } else {
+            resp = createProject(values)
+          }
           if (resp.success) {
             setIsOpen(true)
             actions.resetForm({ name: "", description: "", developer_id: "", manager_id: "", status: "" })
@@ -76,7 +83,7 @@ const Index = ({ navigator }) => {
               <div className={styles.form__group}>
                 <label htmlFor={field.name}>Project Manager</label>
                 <Select id={field.name} {...field}>
-                  <option value="">Select a person</option>
+                  <option value={0}>Select a person</option>
                   {users.map((user) => (
                     user.role === "project_manager" ? <option value={user.id}>{user.name}</option> : null
                   ))}
@@ -90,7 +97,7 @@ const Index = ({ navigator }) => {
               <div className={styles.form__group}>
                 <label htmlFor={field.name}>Assigned to</label>
                 <Select id={field.name} {...field}>
-                  <option value="">Select a person</option>
+                  <option value={0}>Select a person</option>
                   {users.map((user) => (
                     user.role === "developer" ? <option value={user.id}>{user.name}</option> : null
                   ))}
@@ -112,13 +119,13 @@ const Index = ({ navigator }) => {
           </Field>
 
           <button type="submit" className={styles.form__button}>
-            Create project
+            {project ? "Edit project" : "Create project"}
           </button>
 
           <AlertDialog
             isOpen={isOpen}
           >
-            <div className={styles.alert__title}>Project was created</div>
+            <div className={styles.alert__title}>{project ? "Project was edited" : "Project was created"}</div>
             <AlertDialogButton
               onClick={() => setIsOpen(false)}
             >ok</AlertDialogButton>

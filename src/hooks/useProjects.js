@@ -46,11 +46,32 @@ const useProjects = () => {
     return { status: 200, success: true };
   };
 
-  const updateProject = (id, data) => {};
+  const updateProject = (id, data) => {
+    const index = projects.findIndex((item) => item.id === parseInt(id));
+    const { name, description, manager_id, developer_id, status } = data;
+    const project_manager = users.find(
+      (user) => user.id === parseInt(manager_id)
+    );
+    const assigned_to = users.find(
+      (user) => user.id === parseInt(developer_id)
+    );
+    projects[index] = {
+      id,
+      name,
+      description,
+      project_manager,
+      assigned_to,
+      status,
+    };
+    setProjects(projects);
+    localStorage.setItem("projects", JSON.stringify(projects));
+    return { status: 200, success: true };
+  };
 
   const deleteProject = (id) => {
     const newProjects = projects.filter((project) => project.id !== id);
     setProjects(newProjects);
+    localStorage.setItem("projects", JSON.stringify(newProjects));
   };
 
   useEffect(() => {
@@ -72,6 +93,7 @@ const useProjects = () => {
     isLoading: utils.loading,
     error: utils.error,
     createProject,
+    updateProject,
     deleteProject,
   };
 };
