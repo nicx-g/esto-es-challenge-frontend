@@ -17,6 +17,22 @@ const useProjects = () => {
     });
   };
 
+  const createProject = (data) => {
+    const newProject = {
+      ...data,
+      id: projects.length + 1,
+    };
+    const newProjects = [...projects, newProject];
+    setProjects(newProjects);
+  };
+
+  const updateProject = (id, data) => {};
+
+  const deleteProject = (id) => {
+    const newProjects = projects.filter((project) => project.id !== id);
+    setProjects(newProjects);
+  };
+
   useEffect(() => {
     setUtils({ loading: true, error: false });
     getProjects()
@@ -31,6 +47,8 @@ const useProjects = () => {
     projects,
     isLoading: utils.loading,
     error: utils.error,
+    createProject,
+    deleteProject,
   };
 };
 

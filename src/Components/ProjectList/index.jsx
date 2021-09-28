@@ -1,14 +1,21 @@
 import { useState } from 'react'
-import { Page, List, ListItem, Icon, Popover, ProgressCircular } from 'react-onsenui'
+import { Page, List, ListItem, Icon, Popover, ProgressCircular, AlertDialog, AlertDialogButton } from 'react-onsenui'
 import Navbar from '../Navbar';
 import styles from './project.module.css'
 import useProjects from '../../hooks/useProjects'
 
 const ProjectList = ({ navigator }) => {
 
-  const { projects, isLoading, error } = useProjects()
-  const [isOpen, setIsOpen] = useState(false)
+  const { projects, isLoading, deleteProject } = useProjects()
+  const [isOpen, setIsOpen] = useState({
+    menu: false,
+    alert: false
+  })
   const [target, setTarget] = useState(null)
+  const handleDelete = (id) => {
+    deleteProject(id)
+    setIsOpen({ menu: false, alert: false })
+  }
 
   return (
     <Page renderToolbar={() =>
@@ -38,14 +45,14 @@ const ProjectList = ({ navigator }) => {
                 <div className="right">
                   <Icon
                     onClick={(event) => {
-                      setIsOpen(true)
+                      setIsOpen({ ...isOpen, menu: true })
                       setTarget(event.target)
                     }}
                     icon="ellipsis-v"
                   />
                 </div>
                 <Popover
-                  isOpen={isOpen}
+                  isOpen={isOpen.menu}
                   onCancel={() => setIsOpen(false)}
                   getTarget={() => target}
                 >
@@ -54,12 +61,23 @@ const ProjectList = ({ navigator }) => {
                       <Icon className="left" icon="edit" />
                       <div className="left">Edit</div>
                     </ListItem>
-                    <ListItem>
+                    <ListItem onClick={() => setIsOpen({ ...isOpen, alert: true })}>
                       <Icon className="left" icon="trash" />
                       <div className="left">Delete</div>
                     </ListItem>
                   </List>
                 </Popover>
+                <AlertDialog
+                  isOpen={isOpen.alert}
+                >
+                  <div className={styles.alert__title}>Are you sure you want delete this project?</div>
+                  <AlertDialogButton onClick={() => setIsOpen({ ...isOpen, alert: false })}>
+                    Cancel
+                  </AlertDialogButton>
+                  <AlertDialogButton onClick={() => handleDelete(project.id)}>
+                    Delete
+                  </AlertDialogButton>
+                </AlertDialog>
               </ListItem>
             )}
           />
