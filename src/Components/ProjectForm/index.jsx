@@ -1,67 +1,51 @@
-import { Page, Input, Select, Button } from "react-onsenui"
+import { useState } from "react"
+import { Page, Input, Select, AlertDialog, AlertDialogButton } from "react-onsenui"
 import Navbar from '../Navbar'
 import { Form, Formik, Field } from 'formik'
 import styles from './proyectForm.module.css'
+import useUsers from '../../hooks/useUsers'
+import useProjects from '../../hooks/useProjects'
 
-const index = ({ navigator }) => {
-
-  const usersData = [
-    {
-      name: "Ignacio truffa",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=mp&r=x",
-      role: "developer"
-    },
-    {
-      name: "Ignacio truffa",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=mp&r=x",
-      role: "developer"
-    },
-    {
-      name: "Ignacio truffa",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=mp&r=x",
-      role: "developer"
-    },
-    {
-      name: "Walt Cosani",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=identicon&r=x",
-      role: "project_manager"
-    },
-    {
-      name: "Walt Cosani",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=identicon&r=x",
-      role: "project_manager"
-    },
-    {
-      name: "Walt Cosani",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=identicon&r=x",
-      role: "project_manager"
-    },
-  ]
+const Index = ({ navigator, project }) => {
+  console.log(project)
+  const { users } = useUsers();
+  const { createProject, updateProject } = useProjects();
+  const [isOpen, setIsOpen] = useState(false)
 
   const validate = (values) => {
     let errors = {};
     if (!values.name) errors.name = "Required"
     if (!values.description) errors.description = "Required"
-    if (!values.manager) errors.manager = "Required"
-    if (!values.developer) errors.developer = "Required"
+    if (!values.manager_id) errors.manager_id = "Required"
+    if (!values.developer_id) errors.developer_id = "Required"
     return errors;
   }
 
   return (
     <Page renderToolbar={() =>
-      <Navbar title="Add Project" navigator={navigator} backButton={true} />
+      <Navbar title={`${project ? "Edit project" : "Add Project"}`} navigator={navigator} backButton={true} />
     }>
       <Formik
+        enableReinitialize
         validate={validate}
         initialValues={{
-          name: "",
-          description: '',
-          manager: "",
-          developer: "",
-          status: "enabled"
+          name: project?.name ?? "",
+          description: project?.description ?? '',
+          manager_id: project?.project_manager?.id ?? 0,
+          developer_id: project?.assigned_to?.id ?? 0,
+          status: project?.status ?? "enabled"
         }}
-        onSubmit={(values) => {
-          console.log(values)
+        onSubmit={(values, actions) => {
+          let resp;
+          if (project) {
+            resp = updateProject(project?.id, values)
+          } else {
+            resp = createProject(values)
+          }
+          if (resp.success) {
+            setIsOpen(true)
+            actions.resetForm({ name: "", description: "", developer_id: "", manager_id: "", status: "" })
+          }
         }}
       >
         <Form className={styles.form}>
@@ -94,31 +78,31 @@ const index = ({ navigator }) => {
             )
             }
           </Field>
-          <Field name="manager">
+          <Field name="manager_id">
             {({ field, form }) => (
               <div className={styles.form__group}>
                 <label htmlFor={field.name}>Project Manager</label>
                 <Select id={field.name} {...field}>
-                  <option value="">Select a person</option>
-                  {usersData.map((user) => (
-                    user.role === "project_manager" ? <option value={user.name}>{user.name}</option> : null
+                  <option value={0}>Select a person</option>
+                  {users.map((user) => (
+                    user.role === "project_manager" ? <option value={user.id}>{user.name}</option> : null
                   ))}
                 </Select>
-                {form.errors.manager && form.touched.manager ? <div className={styles.form__error}>{form.errors.manager}</div> : null}
+                {form.errors.manager_id && form.touched.manager_id ? <div className={styles.form__error}>{form.errors.manager_id}</div> : null}
               </div>
             )}
           </Field>
-          <Field name="developer">
+          <Field name="developer_id">
             {({ field, form }) => (
               <div className={styles.form__group}>
                 <label htmlFor={field.name}>Assigned to</label>
                 <Select id={field.name} {...field}>
-                  <option value="">Select a person</option>
-                  {usersData.map((user) => (
-                    user.role === "developer" ? <option value={user.name}>{user.name}</option> : null
+                  <option value={0}>Select a person</option>
+                  {users.map((user) => (
+                    user.role === "developer" ? <option value={user.id}>{user.name}</option> : null
                   ))}
                 </Select>
-                {form.errors.developer && form.touched.developer ? <div className={styles.form__error}>{form.errors.developer}</div> : null}
+                {form.errors.developer_id && form.touched.developer_id ? <div className={styles.form__error}>{form.errors.developer_id}</div> : null}
               </div>
             )}
           </Field>
@@ -134,14 +118,24 @@ const index = ({ navigator }) => {
             )}
           </Field>
 
-
-          <button className={styles.form__button}>
-            Create project
+          <button type="submit" className={styles.form__button}>
+            {project ? "Edit project" : "Create project"}
           </button>
+
+          <AlertDialog
+            isOpen={isOpen}
+          >
+            <div className={styles.alert__title}>{project ? "Project was edited" : "Project was created"}</div>
+            <AlertDialogButton
+              onClick={() => setIsOpen(false)}
+            >ok</AlertDialogButton>
+          </AlertDialog>
+
+
         </Form>
       </Formik>
     </Page>
   )
 }
 
-export default index;
+export default Index;
