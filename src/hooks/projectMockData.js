@@ -2,7 +2,7 @@ export const data = [
   {
     id: 1,
     name: "Landing page",
-    created_at: "09/09/2020 10:30am",
+    created_at: "09/09/2020 10:30:03",
     assigned_to: {
       name: "Ignacio truffa",
       url_photo:
@@ -18,7 +18,7 @@ export const data = [
   {
     id: 2,
     name: "E-commerce shop",
-    created_at: "09/09/2020 10:30am",
+    created_at: "09/09/2020 10:30:03",
     assigned_to: {
       name: "Ignacio truffa",
       url_photo:
@@ -34,7 +34,7 @@ export const data = [
   {
     id: 3,
     name: "CRM Linkroom",
-    created_at: "09/09/2020 10:30am",
+    created_at: "09/09/2020 10:30:03",
     assigned_to: {
       name: "Ignacio truffa",
       url_photo:

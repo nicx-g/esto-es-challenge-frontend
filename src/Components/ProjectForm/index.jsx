@@ -1,18 +1,22 @@
-import { Page, Input, Select } from "react-onsenui"
+import { useState } from "react"
+import { Page, Input, Select, AlertDialog, AlertDialogButton } from "react-onsenui"
 import Navbar from '../Navbar'
 import { Form, Formik, Field } from 'formik'
 import styles from './proyectForm.module.css'
 import useUsers from '../../hooks/useUsers'
+import useProjects from '../../hooks/useProjects'
 
 const Index = ({ navigator }) => {
-  const { users } = useUsers()
+  const { users } = useUsers();
+  const { createProject } = useProjects();
+  const [isOpen, setIsOpen] = useState(false)
 
   const validate = (values) => {
     let errors = {};
     if (!values.name) errors.name = "Required"
     if (!values.description) errors.description = "Required"
-    if (!values.manager) errors.manager = "Required"
-    if (!values.developer) errors.developer = "Required"
+    if (!values.manager_id) errors.manager_id = "Required"
+    if (!values.developer_id) errors.developer_id = "Required"
     return errors;
   }
 
@@ -25,12 +29,16 @@ const Index = ({ navigator }) => {
         initialValues={{
           name: "",
           description: '',
-          manager: "",
-          developer: "",
+          manager_id: "",
+          developer_id: "",
           status: "enabled"
         }}
-        onSubmit={(values) => {
-          console.log(values)
+        onSubmit={(values, actions) => {
+          const resp = createProject(values)
+          if (resp.success) {
+            setIsOpen(true)
+            actions.resetForm({ name: "", description: "", developer_id: "", manager_id: "", status: "" })
+          }
         }}
       >
         <Form className={styles.form}>
@@ -63,31 +71,31 @@ const Index = ({ navigator }) => {
             )
             }
           </Field>
-          <Field name="manager">
+          <Field name="manager_id">
             {({ field, form }) => (
               <div className={styles.form__group}>
                 <label htmlFor={field.name}>Project Manager</label>
                 <Select id={field.name} {...field}>
                   <option value="">Select a person</option>
                   {users.map((user) => (
-                    user.role === "project_manager" ? <option value={user.name}>{user.name}</option> : null
+                    user.role === "project_manager" ? <option value={user.id}>{user.name}</option> : null
                   ))}
                 </Select>
-                {form.errors.manager && form.touched.manager ? <div className={styles.form__error}>{form.errors.manager}</div> : null}
+                {form.errors.manager_id && form.touched.manager_id ? <div className={styles.form__error}>{form.errors.manager_id}</div> : null}
               </div>
             )}
           </Field>
-          <Field name="developer">
+          <Field name="developer_id">
             {({ field, form }) => (
               <div className={styles.form__group}>
                 <label htmlFor={field.name}>Assigned to</label>
                 <Select id={field.name} {...field}>
                   <option value="">Select a person</option>
                   {users.map((user) => (
-                    user.role === "developer" ? <option value={user.name}>{user.name}</option> : null
+                    user.role === "developer" ? <option value={user.id}>{user.name}</option> : null
                   ))}
                 </Select>
-                {form.errors.developer && form.touched.developer ? <div className={styles.form__error}>{form.errors.developer}</div> : null}
+                {form.errors.developer_id && form.touched.developer_id ? <div className={styles.form__error}>{form.errors.developer_id}</div> : null}
               </div>
             )}
           </Field>
@@ -103,10 +111,20 @@ const Index = ({ navigator }) => {
             )}
           </Field>
 
-
-          <button className={styles.form__button}>
+          <button type="submit" className={styles.form__button}>
             Create project
           </button>
+
+          <AlertDialog
+            isOpen={isOpen}
+          >
+            <div className={styles.alert__title}>Project was created</div>
+            <AlertDialogButton
+              onClick={() => setIsOpen(false)}
+            >ok</AlertDialogButton>
+          </AlertDialog>
+
+
         </Form>
       </Formik>
     </Page>
