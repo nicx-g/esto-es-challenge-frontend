@@ -1,0 +1,22 @@
+.form {
+  padding: 20px;
+}
+
+.form__group {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.form__button {
+  background-color: #f5222d;
+  border: 0;
+  color: #fff;
+  padding: 8px 16px;
+  outline: none;
+}
+
+.form__error {
+  color: #fc525b;
+  font-size: 0.9rem;
+}
