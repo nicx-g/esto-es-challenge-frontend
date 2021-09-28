@@ -7,7 +7,6 @@ import useUsers from '../../hooks/useUsers'
 import useProjects from '../../hooks/useProjects'
 
 const Index = ({ navigator, project }) => {
-  console.log(project)
   const { users } = useUsers();
   const { createProject, updateProject } = useProjects();
   const [isOpen, setIsOpen] = useState(false)

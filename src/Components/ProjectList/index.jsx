@@ -1,29 +1,21 @@
 import { useState, useEffect } from 'react'
-import { Page, List, ListItem, Icon, Popover, ProgressCircular, AlertDialog, AlertDialogButton, SearchInput } from 'react-onsenui'
+import { Page, List, ProgressCircular, SearchInput } from 'react-onsenui'
 import { Formik, Form, Field } from 'formik'
-import Index from '../ProjectForm';
 import Navbar from '../Navbar';
 import styles from './project.module.css'
 import useProjects from '../../hooks/useProjects'
+import ProjectItem from './ProjectItem';
 
 const ProjectList = ({ navigator }) => {
 
-  const { projects, isLoading, deleteProject } = useProjects()
+  const { projects, isLoading } = useProjects()
   const [filteredProjects, setFilteredProjects] = useState(projects)
   const [limitProjects, setLimitProjects] = useState(6)
-  const [isOpen, setIsOpen] = useState({
-    menu: false,
-    alert: false
-  })
-  const [target, setTarget] = useState(null)
-  const handleDelete = (id) => {
-    deleteProject(id)
-    setIsOpen({ menu: false, alert: false })
-  }
+
 
   useEffect(() => {
     setFilteredProjects(projects)
-  }, [isLoading])
+  }, [isLoading, projects])
 
   return (
     <Page
@@ -49,7 +41,6 @@ const ProjectList = ({ navigator }) => {
             }
             onSubmit={(values) => {
               const { search } = values
-              console.log(search)
               if (search) {
                 const projectsFiltered = projects.filter(item =>
                   item.name.toLowerCase().includes(search.toLowerCase()) ||
@@ -79,62 +70,8 @@ const ProjectList = ({ navigator }) => {
           {filteredProjects.slice(0, limitProjects).length !== 0 ?
             <List
               dataSource={filteredProjects.slice(0, limitProjects)}
-              renderRow={(project) => (
-                <ListItem modifier="longdivider">
-                  <div className={`left ${styles.list__item__card}`}>
-                    <div className={styles.list__item__card__title}>
-                      {project.name}
-                    </div>
-                    <div className={styles.list__item__card__subtitle}>
-                      creation date: {project.created_at}
-                    </div>
-                    <div className={styles.list__item__card__user}>
-                      <img style={{ maxHeight: "30px", borderRadius: "50%" }} src={project.assigned_to.url_photo} alt="user avatar" />
-                      {project.assigned_to.name}
-                    </div>
-                  </div>
-                  <div className="right">
-                    <button
-                      className={styles.popover__button}
-                      onClick={(event) => {
-                        setIsOpen({ ...isOpen, menu: true })
-                        setTarget(event.target)
-                      }}
-                    >
-                      <Icon icon="ellipsis-v" />
-                    </button>
-                  </div>
-                  <Popover
-                    isOpen={isOpen.menu}
-                    onCancel={() => setIsOpen(false)}
-                    getTarget={() => target}
-                  >
-                    <List>
-                      <ListItem onClick={() => {
-                        setIsOpen({ ...isOpen, menu: false })
-                        navigator.pushPage({ component: Index, project, key: "projectFormEdit" })
-                      }}>
-                        <Icon className="left" icon="edit" />
-                        <div className="left">Edit</div>
-                      </ListItem>
-                      <ListItem onClick={() => setIsOpen({ menu: false, alert: true })}>
-                        <Icon className="left" icon="trash" />
-                        <div className="left">Delete</div>
-                      </ListItem>
-                    </List>
-                  </Popover>
-                  <AlertDialog
-                    isOpen={isOpen.alert}
-                  >
-                    <div className={styles.alert__title}>Are you sure you want delete this project?</div>
-                    <AlertDialogButton onClick={() => setIsOpen({ ...isOpen, alert: false })}>
-                      Cancel
-                    </AlertDialogButton>
-                    <AlertDialogButton onClick={() => handleDelete(project.id)}>
-                      Delete
-                    </AlertDialogButton>
-                  </AlertDialog>
-                </ListItem>
+              renderRow={(project, index) => (
+                <ProjectItem key={index} project={project} navigator={navigator} />
               )}
             />
             : <div className={styles.empty_projects}>There're not projects here :( let's create one!</div>

@@ -8,10 +8,14 @@
   font-size: 1rem;
   margin: 3px 10px;
 }
-.list__item__card__subtitle {
+.list__item__card__date {
   font-size: 0.8rem;
-  margin: 3px 10px;
+  margin: 3px 10px 9px;
   color: #00000073;
+}
+.list__item__card__subtitle {
+  font-size: 0.9rem;
+  margin: 3px 10px;
 }
 .list__item__card__user {
   margin: 3px 10px;
@@ -20,6 +24,22 @@
 }
 .list__item__card__user img {
   margin-right: 5px;
+}
+.list__item__card__status {
+  margin: 3px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+.list__item__card__status span {
+  font-size: 0.9rem;
+}
+.list__item__card__status p {
+  margin: 0 5px;
+  background-color: #f5f5f5;
+  border-radius: 20px;
+  padding: 5px 10px;
+  font-size: 0.9rem;
 }
 .loading {
   min-height: 100vh;
