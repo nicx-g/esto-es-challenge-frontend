@@ -94,13 +94,15 @@ const ProjectList = ({ navigator }) => {
                     </div>
                   </div>
                   <div className="right">
-                    <Icon
+                    <button
+                      className={styles.popover__button}
                       onClick={(event) => {
                         setIsOpen({ ...isOpen, menu: true })
                         setTarget(event.target)
                       }}
-                      icon="ellipsis-v"
-                    />
+                    >
+                      <Icon icon="ellipsis-v" />
+                    </button>
                   </div>
                   <Popover
                     isOpen={isOpen.menu}
