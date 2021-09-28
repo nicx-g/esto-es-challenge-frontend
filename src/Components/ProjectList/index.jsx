@@ -61,7 +61,7 @@ const ProjectList = ({ navigator }) => {
                       <Icon className="left" icon="edit" />
                       <div className="left">Edit</div>
                     </ListItem>
-                    <ListItem onClick={() => setIsOpen({ ...isOpen, alert: true })}>
+                    <ListItem onClick={() => setIsOpen({ menu: false, alert: true })}>
                       <Icon className="left" icon="trash" />
                       <div className="left">Delete</div>
                     </ListItem>

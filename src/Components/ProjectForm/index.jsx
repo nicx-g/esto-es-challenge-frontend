@@ -1,42 +1,11 @@
-import { Page, Input, Select, Button } from "react-onsenui"
+import { Page, Input, Select } from "react-onsenui"
 import Navbar from '../Navbar'
 import { Form, Formik, Field } from 'formik'
 import styles from './proyectForm.module.css'
+import useUsers from '../../hooks/useUsers'
 
-const index = ({ navigator }) => {
-
-  const usersData = [
-    {
-      name: "Ignacio truffa",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=mp&r=x",
-      role: "developer"
-    },
-    {
-      name: "Ignacio truffa",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=mp&r=x",
-      role: "developer"
-    },
-    {
-      name: "Ignacio truffa",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=mp&r=x",
-      role: "developer"
-    },
-    {
-      name: "Walt Cosani",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=identicon&r=x",
-      role: "project_manager"
-    },
-    {
-      name: "Walt Cosani",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=identicon&r=x",
-      role: "project_manager"
-    },
-    {
-      name: "Walt Cosani",
-      url_photo: "https://gravatar.com/avatar/2821a57d2412a33775155644a612a9a5?s=400&d=identicon&r=x",
-      role: "project_manager"
-    },
-  ]
+const Index = ({ navigator }) => {
+  const { users } = useUsers()
 
   const validate = (values) => {
     let errors = {};
@@ -100,7 +69,7 @@ const index = ({ navigator }) => {
                 <label htmlFor={field.name}>Project Manager</label>
                 <Select id={field.name} {...field}>
                   <option value="">Select a person</option>
-                  {usersData.map((user) => (
+                  {users.map((user) => (
                     user.role === "project_manager" ? <option value={user.name}>{user.name}</option> : null
                   ))}
                 </Select>
@@ -114,7 +83,7 @@ const index = ({ navigator }) => {
                 <label htmlFor={field.name}>Assigned to</label>
                 <Select id={field.name} {...field}>
                   <option value="">Select a person</option>
-                  {usersData.map((user) => (
+                  {users.map((user) => (
                     user.role === "developer" ? <option value={user.name}>{user.name}</option> : null
                   ))}
                 </Select>
@@ -144,4 +113,4 @@ const index = ({ navigator }) => {
   )
 }
 
-export default index;
+export default Index;
