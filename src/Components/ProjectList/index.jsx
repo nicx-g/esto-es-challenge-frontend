@@ -63,7 +63,7 @@ const ProjectList = ({ navigator }) => {
                       navigator.pushPage({ component: Index, project, key: "projectFormEdit" })
                     }}>
                       <Icon className="left" icon="edit" />
-                      <div className="left">Edit, {project.name}</div>
+                      <div className="left">Edit</div>
                     </ListItem>
                     <ListItem onClick={() => setIsOpen({ menu: false, alert: true })}>
                       <Icon className="left" icon="trash" />
