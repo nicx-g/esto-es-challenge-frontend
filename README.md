@@ -1,70 +1,40 @@
-# Getting Started with Create React App
+# Esto es - Challenge Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Un challenge hecho en React para [Esto es](https://www.linkedin.com/company/estoes/), utilizando y siguiendo los requerimientos descritos en [este link](https://bitbucket.org/estoes-challenges/frontend/src/master/)
 
-## Available Scripts
+## Demo
 
-In the project directory, you can run:
+[Link](https://esto-es-challenge-frontend.vercel.app/)
 
-### `yarn start`
+## Librerías utilizadas
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Formik
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Para el manejo de formularios (creación, edición, búsqueda) se utilizó esta librería para simplificar el manejo de errores, validación y creación del mismo
 
-### `yarn test`
+### Onsen UI
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Decidí usar esta librería por el diseño que está en el challenge, como vi que en su mayor parte parecía de mobile pensé que el foco principal estaría para usuarios mobile así que me decidí a crear la app pensando específicamente en estos usuarios. Me gustaría aportar también que es la primera vez que utilizo esta librería
 
-### `yarn build`
+## Aclaraciones
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Debido a que me enfoqué en los usuarios mobile no pude realizar correctamente el diseño desktop y decidí romper un poco el diseño mobile para aportar más información al usuario.
+También reemplacé la paginación por un scroll infinito para mayor ux
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Screenshots
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Listado de proyectos
 
-### `yarn eject`
+![App Screenshot](https://media.discordapp.net/attachments/596262131540951040/892488287384641566/unknown.png?width=294&height=467)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### Creando un proyecto
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![App Screenshot](https://media.discordapp.net/attachments/596262131540951040/892488362122940486/unknown.png?width=297&height=468)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Editando un proyecto
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+![App Screenshot](https://media.discordapp.net/attachments/596262131540951040/892488413033422908/unknown.png?width=294&height=467)
 
-## Learn More
+### Eliminando un proyecto
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![App Screenshot](https://media.discordapp.net/attachments/596262131540951040/892488466967978004/unknown.png?width=293&height=468)
