@@ -48,6 +48,7 @@ const useProjects = () => {
 
   const updateProject = (id, data) => {
     const index = projects.findIndex((item) => item.id === parseInt(id));
+    const created_at = projects[index].created_at;
     const { name, description, manager_id, developer_id, status } = data;
     const project_manager = users.find(
       (user) => user.id === parseInt(manager_id)
@@ -57,6 +58,7 @@ const useProjects = () => {
     );
     projects[index] = {
       id,
+      created_at,
       name,
       description,
       project_manager,
